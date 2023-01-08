@@ -1,0 +1,68 @@
+<!-- HTML5 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat</title>
+  <!-- CSS3 -->
+  <style>
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+      width: 500px;
+      border: 1px solid #ccc;
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    .chat-form {
+      display: flex;
+      padding: 10px;
+    }
+    .chat-input {
+      flex: 1;
+      height: 30px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 5px;
+    }
+    .chat-button {
+      height: 30px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #eee;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-messages">
+      <!-- JavaScript -->
+      <script>
+        // Retrieve the chat messages from the server and add them to the page
+        function getMessages() {
+          fetch('/messages')
+            .then(response => response.json())
+            .then(messages => {
+              for (const message of messages) {
+                const div = document.createElement('div');
+                div.innerText = `${message.username}: ${message.text}`;
+                document.querySelector('.chat-messages').appendChild(div);
+              }
+            });
+        }
+
+        // Poll the server for new messages every 1000 milliseconds (1 second)
+        setInterval(getMessages, 1000);
+      </script>
+    </div>
+    <form class="chat-form">
+      <input type="text" class="chat-input" placeholder="Type your message..." />
+      <button type="submit" class="chat-button">Send</button>
+    </form>
+  </div>
+</body>
+</html>
